@@ -26,7 +26,7 @@ namespace exercise.wwwapi.EndPoints
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         private static async Task<IResult> GetUsers(IDatabaseRepository<User> service, ClaimsPrincipal user)
         {
-            return Results.Ok(service.GetAll());
+            return TypedResults.Ok(service.GetAll());
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -71,7 +71,8 @@ namespace exercise.wwwapi.EndPoints
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)                
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username)
             };
             
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetValue("AppSettings:Token")));

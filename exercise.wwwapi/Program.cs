@@ -113,4 +113,6 @@ app.MapControllers();
 
 app.ConfigureAuthApi();
 
+app.ConfigureSecureApi();
+
 app.Run();
