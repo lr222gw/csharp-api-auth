@@ -4,18 +4,14 @@ using System.Linq.Expressions;
 
 namespace exercise.wwwapi.Repository
 {
-    public class DatabaseRepository<T> : IDatabaseRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
 
 
-        private DatabaseContext _db;
+        private DataContext _db;
         private DbSet<T> _table = null;
-        public DatabaseRepository()
-        {
-            _db = new DatabaseContext();
-            _table = _db.Set<T>();
-        }
-        public DatabaseRepository(DatabaseContext db)
+       
+        public Repository(DataContext db)
         {
             _db = db;
             _table = _db.Set<T>();

@@ -19,9 +19,10 @@ namespace exercise.wwwapi.EndPoints
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        private static async Task<IResult> GetMessage(IDatabaseRepository<User> service, ClaimsPrincipal user)
+        private static async Task<IResult> GetMessage(IRepository<User> service, ClaimsPrincipal user, ILogger logger)
         {
-            return TypedResults.Ok($"you are logged in and you are userid: {user.UserRealId().ToString()}!");
+            logger.LogDebug(new string('*', 1000));
+            return TypedResults.Ok(new { LoggedIn = true, UserId=user.UserRealId().ToString(), Email = $"{user.Email()}", Message = "Pulled the userid and email out of the claims" });
         }
     }
 }

@@ -10,6 +10,8 @@ namespace exercise.wwwapi.Models
         [Column("username")]
         public string Username { get; set; }
         [Column("passwordhash")]
-        public string PasswordHash { get; set; }    
+        public string PasswordHash { get; set; }
+        [Column("email")]
+        public string Email { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace exercise.wwwapi.Repository
 {
-    public interface IDatabaseRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
         IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includeExpressions);

@@ -1,20 +1,32 @@
 using exercise.wwwapi.Configuration;
+using exercise.wwwapi.Data;
 using exercise.wwwapi.EndPoints;
 using exercise.wwwapi.Models;
 using exercise.wwwapi.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
+using System.Diagnostics;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 var config = new ConfigurationSettings();
 
 // Add services to the container.
 builder.Services.AddScoped<IConfigurationSettings, ConfigurationSettings>();
-builder.Services.AddScoped<IDatabaseRepository<User>, DatabaseRepository<User>>();
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
+builder.Services.AddScoped<ILogger, Logger<string>>();
+builder.Services.AddDbContext<DataContext>(options => {
+    
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+    options.LogTo(message => Debug.WriteLine(message));
 
+});
 //authentication verifying who they say they are
 //authorization verifying what they have access to
 builder.Services.AddAuthentication(x =>
@@ -22,6 +34,7 @@ builder.Services.AddAuthentication(x =>
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(x =>
 {
     x.TokenValidationParameters = new TokenValidationParameters
@@ -95,6 +108,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Demo API");
+    });
+    app.MapScalarApiReference();
 }
 
 app.UseCors(x => x

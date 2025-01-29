@@ -24,13 +24,13 @@ namespace exercise.wwwapi.EndPoints
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        private static async Task<IResult> GetUsers(IDatabaseRepository<User> service, ClaimsPrincipal user)
+        private static async Task<IResult> GetUsers(IRepository<User> service, ClaimsPrincipal user)
         {
             return TypedResults.Ok(service.GetAll());
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        private static async Task<IResult> Register(UserRequestDto request, IDatabaseRepository<User> service)
+        private static async Task<IResult> Register(UserRequestDto request, IRepository<User> service)
         {
 
             //user exists
@@ -42,6 +42,7 @@ namespace exercise.wwwapi.EndPoints
 
             user.Username = request.Username;
             user.PasswordHash = passwordHash;
+            user.Email = request.Email;
 
             service.Insert(user);
             service.Save();
@@ -51,7 +52,7 @@ namespace exercise.wwwapi.EndPoints
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        private static async Task<IResult> Login(UserRequestDto request, IDatabaseRepository<User> service, IConfigurationSettings config)
+        private static async Task<IResult> Login(UserRequestDto request, IRepository<User> service, IConfigurationSettings config)
         {
             //user doesn't exist
             if (!service.GetAll().Where(u => u.Username == request.Username).Any()) return Results.BadRequest(new Payload<UserRequestDto>() { status = "User does not exist", data = request });
@@ -72,7 +73,9 @@ namespace exercise.wwwapi.EndPoints
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Email, user.Email),
+                
             };
             
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetValue("AppSettings:Token")));
