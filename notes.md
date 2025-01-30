@@ -1,4 +1,30 @@
-
+## install nugget package dependencies: 
+Commands for packages
+```
+install-package bcrypt.net-core
+install-package Microsoft.AspNetCore.Authentication.Jwtbearer
+install-package Microsoft.AspNetCore.OpenApi
+install-package Microsoft.EntityFrameworkCore
+install-package Microsoft.EntityFrameworkCore.Design
+install-package Microsoft.EntityFrameworkCore.InMemory
+install-package Microsoft.EntityFrameworkCore.Tools
+install-package NpgSql.EntityFrameworkCore.PostGreSql
+install-package Swashbuckle.AspNetCore
+install-package System.IdentityModel.Tokens.Jwt
+```
+Versions used for each package:
+```
+bcrypt.net-core -version 4.0.3 
+Microsoft.AspNetCore.Authentication.Jwtbearer -version 7.0.13 
+Microsoft.AspNetCore.OpenApi -version 7.0.13 
+Microsoft.EntityFrameworkCore -version 7.0.13 
+Microsoft.EntityFrameworkCore.Design -version 7.0.13 
+Microsoft.EntityFrameworkCore.InMemory -version 7.0.13 
+Microsoft.EntityFrameworkCore.Tools -version 7.0.13 
+NpgSql.EntityFrameworkCore.PostGreSql -version 7.0.11 
+Swashbuckle.AspNetCore -version 6.5.0 
+System.IdentityModel.Tokens.Jwt -version 7.0.3
+```
 
 ## Setup Auth in program.cs
 - Add Authentication service with JWTBearer to the WebApplicationBuilder: 
