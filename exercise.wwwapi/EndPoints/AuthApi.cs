@@ -24,7 +24,8 @@ namespace exercise.wwwapi.EndPoints
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        private static async Task<IResult> GetUsers(IRepository<User> service, ClaimsPrincipal user)
+        //private static async Task<IResult> GetUsers(IRepository<User> service, ClaimsPrincipal user) 
+        private static async Task<IResult> GetUsers(IRepository<User> service) // Passing ClaimsPrincipal user is not required as no such operations are preformed...
         {
             return TypedResults.Ok(service.GetAll());
         }

@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "csharp-api-auth",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
