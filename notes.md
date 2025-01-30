@@ -58,6 +58,11 @@ builder.Services.AddAuthentication(x =>
 ```csharp
 builder.Services.AddAuthorization();
 ```
+-  Add Cors service to the WebApplicationBuilder:
+-  --
+```csharp
+builder.Services.AddCors();
+```
 - Add definitions for Cors, and define usages of HttpsRedirections, Authentication, Authorization: 
 - -- 
 ```csharp
