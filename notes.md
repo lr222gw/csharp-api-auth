@@ -52,7 +52,32 @@ builder.Services.AddAuthentication(x =>
     };
 });
 ```
-  - Make sure there's a `appsettings.json` containing `AppSettings : {"Token": "secret phrase"}`
+  - Make sure there's a `appsettings.json` containing `AppSettings`, `JwtTokenSettings`, `AllowedHosts`: 
+  - -- 
+  ```json 
+    {
+        "Logging": {
+            "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+            }
+        },
+        "AllowedHosts": "*",
+        "JwtTokenSettings": {
+            "ValidIssuer": "YourCompanyServer",
+            "ValidAudience": "YourProductAudience",
+            "SymmetricSecurityKey": "SOME_RANDOM_SECRET",
+            "JwtRegisteredClaimNamesSub": "SOME_RANDOM_CODE"
+        },
+        "AppSettings" : {
+            "Token": "secret phrase"
+        },
+        "ConnectionStrings": {
+            "DefaultConnectionString": "Host=127.0.0.1:5432; Database=cshar_auth_jwt; Username=postgres; Password=123;"
+        }
+
+    }
+  ```
 -  Add Authorization service to the WebApplicationBuilder:
 -  --
 ```csharp
